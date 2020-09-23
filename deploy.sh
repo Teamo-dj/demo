@@ -1,6 +1,6 @@
 #! /bin/bash
 
-SITE_PATH='/opt/unimas'
+SITE_PATH='/opt/unimas/demo'
 
 echo "deploy start"
 echo "----------cd project----------"
