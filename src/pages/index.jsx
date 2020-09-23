@@ -6,6 +6,7 @@ export default () => {
     <div>
       <h1 className={styles.title}>
         Page index dddjkkll
+        
       </h1>
     </div>
   );
