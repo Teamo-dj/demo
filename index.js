@@ -38,7 +38,7 @@ http.createServer(async (req, res) => {
      deleteFolderRecursive(projectDir)
 
   // 拉取仓库最新代码
-    execSync(`git clone https://github.com/yeyan1996/${data.repository.name}.git ${projectDir}`,{
+    execSync(`git clone https://github.com/Teamo-dj/${data.repository.name}.git ${projectDir}`,{
        stdio:'inherit',
    })
 }
