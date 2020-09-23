@@ -1,10 +1,7 @@
 #! /bin/bash
-
-SITE_PATH='/opt/unimas/demo'
-
 echo "deploy start"
 echo "----------cd project----------"
-cd $SITE_PATH
+cd "/opt/unimas/demo"
 echo "----------git pull----------"
 git pull
 echo "----------docker build----------"
