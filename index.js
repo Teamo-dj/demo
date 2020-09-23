@@ -1,5 +1,5 @@
 const http = require("http")
-const { execSync } = require("child_process")
+const { execSync,spawn} = require("child_process")
 const fs = require("fs")
 const path = require("path")
 
@@ -17,6 +17,12 @@ function deleteFolderRecursive(path) {
         fs.rmdirSync(path);
     }
 }
+function runCommand( cmd, args, callback ){
+    var child = spawn( cmd, args );
+    var resp = '';
+    child.stdout.on('data', function( buffer ){ resp += buffer.toString(); });
+    child.stdout.on('end', function(){ callback( resp ) });
+}
 
 const resolvePost = req =>
     new Promise(resolve => {
@@ -33,40 +39,11 @@ http.createServer(async (req, res) => {
     console.log('receive request')
     console.log(req.url)
     if (req.method === 'POST' && req.url === '/') {
-        const data = await resolvePost(req);
-        const projectDir = path.resolve(`./${data.repository.name}`)
-        console.log(projectDir)
-        //  deleteFolderRecursive(projectDir)
-         console.log("删除完毕")
-        // 拉取仓库最新代码
-        execSync(`git clone https://github.com/Teamo-dj/${data.repository.name}.git ${projectDir}`, {
-            stdio: 'inherit',
-        })
-        console.log("开始复制")
-        // 复制 Dockerfile 到项目目录
-        fs.copyFileSync(path.resolve(`./Dockerfile`), path.resolve(projectDir, './Dockerfile'))
-
-        // 复制 .dockerignore 到项目目录
-        fs.copyFileSync(path.resolve(__dirname, `./.dockerignore`), path.resolve(projectDir, './.dockerignore'))
-
-        // 创建 docker 镜像
-        console.log(`创建docker镜像:${data.repository.name}`)
-        execSync(`docker build . -t ${data.repository.name}-image:latest `, {
-            stdio: 'inherit',
-            cwd: projectDir
-        })
-
-        // 销毁 docker 容器
-        execSync(`docker ps -a -f "name=^${data.repository.name}-container" --format="{{.Names}}" | xargs -r docker stop | xargs -r docker rm`, {
-            stdio: 'inherit',
-        })
-
-        // 创建 docker 容器
-        execSync(`docker run -d -p 8888:80 --name ${data.repository.name}-container  ${data.repository.name}-image:latest`, {
-            stdio: 'inherit',
-        })
-
-        console.log('deploy success')
+        // const data = await resolvePost(req);
+        // const projectDir = path.resolve(`./${data.repository.name}`)
+        runCommand('sh', ['./deploy.sh'], function( txt ){
+            console.log(txt);
+          });
         res.end('ok')
     }
 }).listen(3000, () => {
