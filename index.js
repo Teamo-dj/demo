@@ -36,7 +36,7 @@ http.createServer(async (req, res) => {
         const data = await resolvePost(req);
         const projectDir = path.resolve(`./${data.repository.name}`)
         console.log(projectDir)
-         deleteFolderRecursive(projectDir)
+        //  deleteFolderRecursive(projectDir)
          console.log("删除完毕")
         // 拉取仓库最新代码
         execSync(`git clone https://github.com/Teamo-dj/${data.repository.name}.git ${projectDir}`, {
