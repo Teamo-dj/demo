@@ -5,8 +5,7 @@ export default () => {
   return (
     <div>
       <h1 className={styles.title}>
-        Page index dddjkkll1212 finish
-         2111212
+       doujiahui
       </h1>
     </div>
   );
