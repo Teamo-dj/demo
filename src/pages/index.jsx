@@ -8,7 +8,6 @@ export default () => {
 
         Page index dddjkkll1212 finish
       </h1>
-      
     </div>
   );
 }
