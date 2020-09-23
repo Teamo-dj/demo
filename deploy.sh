@@ -10,11 +10,7 @@ git pull
 echo "----------docker build----------"
 docker build . -t unimas-image:latest 
 echo "----------docker container delete----------"
-# docker ps -a -f name=unimas-container | xargs -r docker stop | xargs -r docker rm
-echo "----------docker container stop----------"
-docker stop unimas-container 
-echo "----------docker container delete----------"
-docker rm unimas-container
+docker ps -a -f name=unimas-container && docker stop unimas-container && docker rm unimas-container
 echo "----------docker container create----------"
 docker run -d -p 8888:80 --name unimas-container  unimas-image:latest
 echo "deploy success"
